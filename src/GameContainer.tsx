@@ -1,6 +1,6 @@
 import "./App.css";
 
-function App() {
+function GameContainer() {
   const handleClick = (event: React.BaseSyntheticEvent) => {
     console.log({ target: event.target.value });
   };
@@ -13,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default GameContainer;
