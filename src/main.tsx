@@ -5,6 +5,8 @@ import GameContainer from "./GameContainer.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <GameContainer />
+    <main className="container">
+      <GameContainer />
+    </main>
   </StrictMode>,
 );

@@ -1,4 +1,5 @@
-import "./App.css";
+import "./GameContainer.css";
+import Gameboard from "./game/Gameboard";
 
 function GameContainer() {
   const handleClick = (event: React.BaseSyntheticEvent) => {
@@ -6,9 +7,13 @@ function GameContainer() {
   };
   return (
     <>
-      <main>
-        <button onClick={handleClick}>Some more things</button>
-      </main>
+      <section className="game-container">
+        <Gameboard />
+        <div className="button-group">
+          <button onClick={handleClick}>Give up</button>
+          <button onClick={handleClick}>Reset</button>
+        </div>
+      </section>
     </>
   );
 }
