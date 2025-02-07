@@ -1,5 +1,6 @@
 import "./GameContainer.css";
 import Gameboard from "./game/Gameboard";
+import RemainingTries from "./game/RemainingTries";
 
 function GameContainer() {
   const handleClick = (event: React.BaseSyntheticEvent) => {
@@ -9,6 +10,7 @@ function GameContainer() {
     <>
       <section className="game-container">
         <Gameboard />
+        <RemainingTries />
         <div className="button-group">
           <button onClick={handleClick}>Give up</button>
           <button onClick={handleClick}>Reset</button>
