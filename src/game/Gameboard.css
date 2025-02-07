@@ -1,5 +1,12 @@
 .gameboard-container {
-    height: 24rem;
+    height: 29rem;
     width: 100%;
     border: 1px solid red;
+    padding: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1.75rem;
+    row-gap: 1.75rem;
+    /* We may need to revisit this as time goes on */
+    
 }
