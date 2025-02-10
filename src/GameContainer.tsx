@@ -71,6 +71,7 @@ function GameContainer() {
   };
 
   const handleSelectWord = (event: BaseSyntheticEvent) => {
+    // Make sure you can't select one that's been selected, update visual feedback
     if (currentSelection.length < 4) {
       setCurrentSelection((prev) => [...prev, event.target.textContent]); // why use textContent instead of value?
     }
@@ -91,10 +92,14 @@ function GameContainer() {
       );
       // render the correct answer row
     } else {
-      // show an error on screen here and decrement remaining tries
+      // show an error on screen here
+      setGameState((prev) => ({
+        ...prev,
+        remainingTries: prev.remainingTries--, //  decrement remaining tries
+      }));
     }
-    // reset the current selection
-    setCurrentSelection([]);
+    setCurrentSelection([]); // reset the current selection
+    //
   };
   return (
     <>
@@ -103,7 +108,7 @@ function GameContainer() {
           onSelectWord={handleSelectWord}
           wordsToRender={gameState.currentBoard}
         />
-        <RemainingTries />
+        <RemainingTries count={gameState.remainingTries} />
         <div className="button-group">
           <button onClick={handleClick}>Reset</button>
           <button
