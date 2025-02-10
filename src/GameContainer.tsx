@@ -23,21 +23,46 @@ const testWords = [
 ];
 
 // This should stay a const because we'll use this as a reference for the final "Game over" modal
+
 const answerKey = [
-  new Set(["a", "f", "k", "p"]),
-  new Set(["e", "b", "c", "d"]),
-  new Set(["i", "g", "j", "h"]),
-  new Set(["m", "n", "o", "l"]),
+  { description: "Answer 1", answer: new Set(["a", "f", "k", "p"]) },
+  { description: "Answer 2", answer: new Set(["e", "b", "c", "d"]) },
+  { description: "Answer 3", answer: new Set(["i", "g", "j", "h"]) },
+  { description: "Answer 4", answer: new Set(["m", "n", "o", "l"]) },
 ];
+
+/* 
+since we're managing the state for the answers here,
+create the answerRow object here and pass it down to correctAnswer
+potential for useContext? Gameboard is just passing props anyways
+Instead of the answerkey holding just the sets of answers, maybe 
+make an array of objects with an answer Set on it and a description,
+then you can just pass down the specific set that matches. Array.find...
+{
+  description: 'answer1',
+  answerKey: new Set([...])
+},
+{
+  description: 'answer1',
+  answerKey: new Set([...])
+}, 
+and so on
+*/
+
+type GameState = {
+  remainingTries: number;
+  currentBoard: string[];
+  answerKey: { description: string; answer: Set<string> }[];
+  correctAnswers: { description: string; answer: Set<string> }[] | null;
+};
 
 function GameContainer() {
   const [wordState, setWordState] = useState(testWords);
-
-  const [gameState, setGameState] = useState({
+  const [gameState, setGameState] = useState<GameState>({
     remainingTries: 4,
-    originalBoard: testWords,
     currentBoard: wordState,
     answerKey,
+    correctAnswers: null,
   });
   const [currentSelection, setCurrentSelection] = useState<string[]>([]);
 
@@ -56,10 +81,10 @@ function GameContainer() {
             although not a big issue as this is a 4x4 board
     */
     let isCorrect = false;
-    answerKey.forEach((answer) => {
+    answerKey.forEach((object) => {
       let currentMatch = true;
       selection.forEach((item) => {
-        if (!answer.has(item)) {
+        if (!object.answer.has(item)) {
           currentMatch = false;
         }
       });
@@ -86,20 +111,41 @@ function GameContainer() {
       const remainingWords = wordState.filter(
         (word) => !currentSelection.includes(word),
       );
-      setGameState((prev) => ({ ...prev, currentBoard: remainingWords }));
+      // I could say current selection at zero, but this seems brittle
+      // trying to match the currentSelection to the answerKey state
+      const newAnswer = gameState.answerKey.find((answers) =>
+        answers.answer.has(currentSelection[0]),
+      );
+
+      if (newAnswer) {
+        setGameState((prev) => {
+          // This could probably be cleaned up??
+          // TS issue with trying to spread correctAnswers on first go
+          const setOrSpreadPreviousCorrectAnswers = prev.correctAnswers
+            ? {
+                ...prev,
+                correctAnswers: [...prev.correctAnswers, newAnswer],
+                currentBoard: remainingWords,
+              }
+            : {
+                ...prev,
+                correctAnswers: [newAnswer],
+                currentBoard: remainingWords,
+              };
+          return { ...setOrSpreadPreviousCorrectAnswers };
+        });
+      }
+
       setWordState(
         wordState.filter((word) => !currentSelection.includes(word)),
       );
-      // render the correct answer row
     } else {
-      // show an error on screen here
       setGameState((prev) => ({
         ...prev,
         remainingTries: prev.remainingTries--, //  decrement remaining tries
       }));
     }
-    setCurrentSelection([]); // reset the current selection
-    //
+    setCurrentSelection([]);
   };
   return (
     <>
@@ -107,6 +153,7 @@ function GameContainer() {
         <Gameboard
           onSelectWord={handleSelectWord}
           wordsToRender={gameState.currentBoard}
+          correctAnswers={gameState.correctAnswers}
         />
         <RemainingTries count={gameState.remainingTries} />
         <div className="button-group">

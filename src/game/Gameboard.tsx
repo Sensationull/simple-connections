@@ -1,13 +1,19 @@
 import { BaseSyntheticEvent } from "react";
 import "./Gameboard.css";
 import WordTile from "./WordTile";
+import CorrectAnswer from "../CorrectAnswer";
 
 type GameboardProps = {
   onSelectWord(event: BaseSyntheticEvent): void;
   wordsToRender: string[];
+  correctAnswers: { description: string; answer: Set<string> }[] | null;
 };
 
-const Gameboard = ({ onSelectWord, wordsToRender }: GameboardProps) => {
+const Gameboard = ({
+  onSelectWord,
+  wordsToRender,
+  correctAnswers,
+}: GameboardProps) => {
   /*
     responsible for rendering the board of words
     needs to share the number of attempts with remainingTries
@@ -16,6 +22,15 @@ const Gameboard = ({ onSelectWord, wordsToRender }: GameboardProps) => {
 
   return (
     <ul className="gameboard-container">
+      {correctAnswers
+        ? correctAnswers.map((answerRow) => (
+            <CorrectAnswer
+              key={answerRow.description}
+              answer={answerRow.answer}
+              description={answerRow.description}
+            />
+          ))
+        : null}
       {wordsToRender.map((word) => (
         <WordTile key={word} word={word} onSelectWord={onSelectWord} />
       ))}
