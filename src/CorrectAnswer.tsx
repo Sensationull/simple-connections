@@ -7,7 +7,6 @@ type CorrectAnswerProps = {
 
 const CorrectAnswer = ({ answer, description }: CorrectAnswerProps) => {
   const answerToRender = Array.from(answer).toString();
-  console.log({ answer: answer.values(), description, answerToRender });
   return (
     <div className="correct-answer-container">
       <div>{description}</div>
