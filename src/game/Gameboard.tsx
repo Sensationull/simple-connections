@@ -1,11 +1,10 @@
-import { BaseSyntheticEvent } from "react";
 import "./Gameboard.css";
-import WordTile from "./WordTile";
+import WordTile, { Word } from "./WordTile";
 import CorrectAnswer from "../CorrectAnswer";
 
 type GameboardProps = {
-  onSelectWord(event: BaseSyntheticEvent): void;
-  wordsToRender: string[];
+  onSelectWord(word: Word): void;
+  wordsToRender: Word[];
   correctAnswers: { description: string; answer: Set<string> }[] | null;
 };
 
@@ -32,7 +31,7 @@ const Gameboard = ({
           ))
         : null}
       {wordsToRender.map((word) => (
-        <WordTile key={word} word={word} onSelectWord={onSelectWord} />
+        <WordTile key={word.word} word={word} onSelectWord={onSelectWord} />
       ))}
     </ul>
   );
