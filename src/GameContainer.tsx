@@ -1,25 +1,26 @@
-import { BaseSyntheticEvent, useState } from "react";
+import { BaseSyntheticEvent, useEffect, useState } from "react";
 import "./GameContainer.css";
 import Gameboard from "./game/Gameboard";
 import RemainingTries from "./game/RemainingTries";
+import { Word } from "./game/WordTile";
 
 const testWords = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
+  { word: "a", isSelected: false, idxPosition: 1 },
+  { word: "b", isSelected: false, idxPosition: 2 },
+  { word: "c", isSelected: false, idxPosition: 3 },
+  { word: "d", isSelected: false, idxPosition: 4 },
+  { word: "e", isSelected: false, idxPosition: 5 },
+  { word: "f", isSelected: false, idxPosition: 6 },
+  { word: "g", isSelected: false, idxPosition: 7 },
+  { word: "h", isSelected: false, idxPosition: 8 },
+  { word: "i", isSelected: false, idxPosition: 9 },
+  { word: "j", isSelected: false, idxPosition: 10 },
+  { word: "k", isSelected: false, idxPosition: 11 },
+  { word: "l", isSelected: false, idxPosition: 12 },
+  { word: "m", isSelected: false, idxPosition: 13 },
+  { word: "n", isSelected: false, idxPosition: 14 },
+  { word: "o", isSelected: false, idxPosition: 15 },
+  { word: "p", isSelected: false, idxPosition: 16 },
 ];
 
 // This should stay a const because we'll use this as a reference for the final "Game over" modal
@@ -49,11 +50,13 @@ then you can just pass down the specific set that matches. Array.find...
 and so on
 */
 
+type Answer = { description: string; answer: Set<string> };
+
 type GameState = {
   remainingTries: number;
-  currentBoard: string[];
-  answerKey: { description: string; answer: Set<string> }[];
-  correctAnswers: { description: string; answer: Set<string> }[] | null;
+  currentBoard: Word[];
+  answerKey: Answer[];
+  correctAnswers: Answer[] | null;
 };
 
 function GameContainer() {
@@ -65,6 +68,12 @@ function GameContainer() {
     correctAnswers: null,
   });
   const [currentSelection, setCurrentSelection] = useState<string[]>([]);
+
+  useEffect(() => {
+    // I need to sync the state but this is causing unecessary re-renders,
+    // refactor if possible
+    setGameState((prev) => ({ ...prev, currentBoard: wordState }));
+  }, [wordState]);
 
   const isSelectionCorrect = (selection: string[]) => {
     /*
@@ -95,10 +104,29 @@ function GameContainer() {
     return isCorrect;
   };
 
-  const handleSelectWord = (event: BaseSyntheticEvent) => {
+  const updateWordState = (word: Word) => {
+    setWordState((prev) => {
+      const wordToUpdate = { ...word, isSelected: !word.isSelected };
+      const prevWithoutWordToUpdate = prev.filter(
+        (items) => items.word !== word.word,
+      );
+      const sortedAndUpdatedArr = [
+        ...prevWithoutWordToUpdate,
+        wordToUpdate,
+      ].sort((a, b) => a.idxPosition - b.idxPosition);
+      return sortedAndUpdatedArr;
+    });
+  };
+
+  const handleSelectWord = (selectedWord: Word) => {
     // Make sure you can't select one that's been selected, update visual feedback
-    if (currentSelection.length < 4) {
-      setCurrentSelection((prev) => [...prev, event.target.textContent]); // why use textContent instead of value?
+    const text = selectedWord.word;
+    if (currentSelection.length < 4 && !currentSelection.includes(text)) {
+      setCurrentSelection((prev) => [...prev, text]); // why use textContent instead of value?
+      updateWordState(selectedWord);
+    } else {
+      setCurrentSelection((prev) => prev.filter((item) => item !== text));
+      updateWordState(selectedWord);
     }
   };
 
@@ -109,7 +137,7 @@ function GameContainer() {
   const handleSubmit = () => {
     if (isSelectionCorrect(currentSelection)) {
       const remainingWords = wordState.filter(
-        (word) => !currentSelection.includes(word),
+        (word) => !currentSelection.includes(word.word),
       );
       // I could say current selection at zero, but this seems brittle
       // trying to match the currentSelection to the answerKey state
@@ -137,7 +165,7 @@ function GameContainer() {
       }
 
       setWordState(
-        wordState.filter((word) => !currentSelection.includes(word)),
+        wordState.filter((word) => !currentSelection.includes(word.word)),
       );
     } else {
       setGameState((prev) => ({

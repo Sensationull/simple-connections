@@ -1,54 +1,62 @@
-# React-TS-Starter 
+# Simple-Connections
 
-A Starter repo for static React based projects with TS
+This is an attempt to recreate the NYT game known as Connections. 
 
-# React + TypeScript + Vite
+If you're unfamiliar with connections,
+[descriptionGoesHere]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+### My Process
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I am pretty familiar with this game so 
+When I was given this task, I found it hard to not immediately jump into thinking about what components were needed. But to help me wrap my mind around what needs to be built, I headed to excalidraw to really get a grasp of what basic scaffolding of the project would be.
 
-## Expanding the ESLint configuration
+[ExcalidrawLinkGoesHere]
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+After drawing up the components, I started out making the parent containers for the Game, Gameboard, and Remaining Tries components. And then I added some base styles just to have a skeleton of the game rendering because if it didn't look right to me while scaffolding it, it would just continue to bug me while trying to create the actual busineess logic. 
 
-- Configure the top-level `parserOptions` property like this:
+[ScaffoldingStateLinkGoesHere]
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+I decided to try my hand at the logic for the game at this point, and this is where I made my first mistake: not defining the data model. 
+
+When the original scaffolding went up, there were placeholders for the words listed in just a basic array called testWords so that I could map out the items in React more cleanly. Something like:
+
+```
+const testWords = ['a', 'b', 'c', ...]
+
+const answerKey = [
+  ['a', 'b', 'c', 'd'],
+  ['e', 'f', 'g', 'h'],
+  ...
+];
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+This was fine for scaffolding. However, I was now trying to implement the logic for the validation of the answers and that meant that I would've had to iterate over an array of arrays (answerKey) and identify if each item of the currently selected array was included in one of the arrays in answerKey. I tried to cook up a solution involving a series of higher-order JS functions (.every, .some, .includes) but was having difficulty implementing the proper solution do to how .every would short-circuit if the first entry in answerKey wasn't a perfect match. That's by design (thanks MDN) but also made me think of a data structure that would potentially help with the batch of words in the answerKey. This led me to refactor that answerKey into an array of objects in the shape of 
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+since we're managing the state for the answers here,
+create the answerRow object here and pass it down to correctAnswer
+potential for useContext? Gameboard is just passing props anyways
+Instead of the answerkey holding just the sets of answers, maybe 
+make an array of objects with an answer Set on it and a description,
+then you can just pass down the specific set that matches. Array.find...
+{
+  description: 'answer1',
+  answerKey: new Set([...])
+},
+{
+  description: 'answer1',
+  answerKey: new Set([...])
+}, 
+and so on
+```
+
+And in changing the data model for the answerKey, I had to change the data model everywhere else in my code. This meant in each component where the answers were referenced and in their respective type definitions. Then having to test again manually that things were still working as expected. (More on testing later)
+
+Big Oof. 
+
+It wasn't even a terribly large amount of code, but it was a tedious process. 
+
+~ Intermission ~
+
+Now I've discovered that once I added the styling for selecting a word, the game board needs to re-render, but it's moving the updated word object to the last item on the game board. so I'm going to add the indexPosition to the word object so that I can maintain it's position when the game board re-renders
