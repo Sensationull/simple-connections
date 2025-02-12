@@ -1,9 +1,6 @@
 import { useState } from "react";
 import "./RemainingTries.css";
-
-type RemainingTriesProps = {
-  count: number;
-};
+import { RemainingTriesProps } from "../utils/types";
 
 const RemainingTries = ({ count }: RemainingTriesProps) => {
   const [tries, setTries] = useState(new Array(count).fill(0));

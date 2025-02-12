@@ -1,12 +1,7 @@
 import "./Gameboard.css";
-import WordTile, { Word } from "./WordTile";
+import WordTile from "./WordTile";
 import CorrectAnswer from "../CorrectAnswer";
-
-type GameboardProps = {
-  onSelectWord(word: Word): void;
-  wordsToRender: Word[];
-  correctAnswers: { description: string; answer: Set<string> }[] | null;
-};
+import { GameboardProps } from "../utils/types";
 
 const Gameboard = ({
   onSelectWord,

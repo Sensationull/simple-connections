@@ -1,9 +1,5 @@
 import "./CorrectAnswer.css";
-
-type CorrectAnswerProps = {
-  answer: Set<string>;
-  description: string;
-};
+import { CorrectAnswerProps } from "./utils/types";
 
 const CorrectAnswer = ({ answer, description }: CorrectAnswerProps) => {
   const answerToRender = Array.from(answer).toString();
