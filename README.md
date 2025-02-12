@@ -57,6 +57,8 @@ Big Oof.
 
 It wasn't even a terribly large amount of code, but it was a tedious process. 
 
+However, now that it's in an object shape, it's easier to extend that shape if needbe.
+
 ~ Intermission ~
 
 Now I've discovered that once I added the styling for selecting a word, the game board needs to re-render, but it's moving the updated word object to the last item on the game board. so I'm going to add the indexPosition to the word object so that I can maintain it's position when the game board re-renders
