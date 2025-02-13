@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./GameContainer.css";
 import Gameboard from "./game/Gameboard";
 import RemainingTries from "./game/RemainingTries";
@@ -41,10 +41,10 @@ function GameContainer() {
     return isCorrect;
   };
 
-  const updateWordState = (word: Word) => {
+  const updateWordState = (word: Word, selectState: boolean) => {
     // ~ Helper for handleSelectWord ~
     setWordState((prev) => {
-      const wordToUpdate = { ...word, isSelected: !word.isSelected };
+      const wordToUpdate = { ...word, isSelected: selectState };
       const prevWithoutWordToUpdate = prev.filter(
         (items) => items.word !== word.word,
       );
@@ -57,19 +57,14 @@ function GameContainer() {
   };
 
   const handleSelectWord = (selectedWord: Word) => {
-    // Make sure you can't select one that's been selected, update visual feedback
     const text = selectedWord.word;
     if (currentSelection.length < 4 && !currentSelection.includes(text)) {
-      setCurrentSelection((prev) => [...prev, text]); // why use textContent instead of value?
-      updateWordState(selectedWord);
+      setCurrentSelection((prev) => [...prev, text]);
+      updateWordState(selectedWord, true);
     } else {
       setCurrentSelection((prev) => prev.filter((item) => item !== text));
-      updateWordState(selectedWord);
+      updateWordState(selectedWord, false);
     }
-  };
-
-  const handleClick = (event: BaseSyntheticEvent) => {
-    console.log({ target: event.target.value });
   };
 
   const handleSubmit = () => {
@@ -112,8 +107,27 @@ function GameContainer() {
         ...prev,
         remainingTries: prev.remainingTries--, //  decrement remaining tries
       }));
+      const resetSelectedWords = wordState.filter(
+        (
+          word, // find selected words
+        ) => currentSelection.includes(word.word),
+      );
+      resetSelectedWords.forEach((word) => {
+        updateWordState(word, false); // reset selected words
+      });
     }
     setCurrentSelection([]);
+  };
+
+  const handleReset = () => {
+    setGameState({
+      remainingTries: 4,
+      currentBoard: testWords,
+      answerKey,
+      correctAnswers: null,
+    });
+    setCurrentSelection([]);
+    setWordState(testWords);
   };
   return (
     <>
@@ -125,7 +139,7 @@ function GameContainer() {
         />
         <RemainingTries count={gameState.remainingTries} />
         <div className="button-group">
-          <button onClick={handleClick}>Reset</button>
+          <button onClick={handleReset}>Reset</button>
           <button
             onClick={handleSubmit}
             disabled={currentSelection.length !== 4}
@@ -133,10 +147,6 @@ function GameContainer() {
             Submit
           </button>
         </div>
-        {currentSelection &&
-          currentSelection.map((selection) => (
-            <div key={selection}>{selection}</div>
-          ))}
       </section>
     </>
   );
