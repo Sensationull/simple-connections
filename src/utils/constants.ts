@@ -23,3 +23,6 @@ export const answerKey = [
   { description: "Answer 3", answer: new Set(["i", "g", "j", "h"]) },
   { description: "Answer 4", answer: new Set(["m", "n", "o", "l"]) },
 ];
+
+export const RESET_MODAL_HEADER_TEXT = "Start over";
+export const RESET_MODAL_CONTENT_TEXT = "Do you want to try again?";

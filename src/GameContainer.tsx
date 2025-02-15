@@ -2,8 +2,14 @@ import { useEffect, useState } from "react";
 import "./GameContainer.css";
 import Gameboard from "./game/Gameboard";
 import RemainingTries from "./game/RemainingTries";
-import { testWords, answerKey } from "./utils/constants";
+import {
+  testWords,
+  answerKey,
+  RESET_MODAL_HEADER_TEXT,
+  RESET_MODAL_CONTENT_TEXT,
+} from "./utils/constants";
 import { GameState, Word } from "./utils/types";
+import Modal from "./game/Modal";
 
 function GameContainer() {
   const [wordState, setWordState] = useState(testWords);
@@ -139,7 +145,12 @@ function GameContainer() {
         />
         <RemainingTries count={gameState.remainingTries} />
         <div className="button-group">
-          <button onClick={handleReset}>Reset</button>
+          {/* <button onClick={handleReset}>Reset</button> */}
+          <Modal
+            headerText={RESET_MODAL_HEADER_TEXT}
+            description={RESET_MODAL_CONTENT_TEXT}
+            onReset={handleReset}
+          ></Modal>
           <button
             onClick={handleSubmit}
             disabled={currentSelection.length !== 4}
