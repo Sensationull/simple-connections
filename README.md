@@ -62,3 +62,5 @@ However, now that it's in an object shape, it's easier to extend that shape if n
 ~ Intermission ~
 
 Now I've discovered that once I added the styling for selecting a word, the game board needs to re-render, but it's moving the updated word object to the last item on the game board. so I'm going to add the indexPosition to the word object so that I can maintain it's position when the game board re-renders
+
+I tried using the native dialog element and ran into an issue when styling. When I tried to add a class name with a flex/fixed position declaration to the dialog element itself, the dialog stopped disappearing from the screen when it was dismissed. After doing some refactoring I found that there probably was some interaction with the ::backdrop psuedo-class that the native dialog has total control over that caused this bug. So I basically added a wrapper around the content that I needed to center and added the flex class there rather than on the dialog itself.
