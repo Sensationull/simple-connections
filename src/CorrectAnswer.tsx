@@ -1,10 +1,11 @@
+import cx from "classnames";
 import "./CorrectAnswer.css";
 import { CorrectAnswerProps } from "./utils/types";
 
-const CorrectAnswer = ({ answer, description }: CorrectAnswerProps) => {
+const CorrectAnswer = ({ answer, description, color }: CorrectAnswerProps) => {
   const answerToRender = Array.from(answer).toString();
   return (
-    <div className="correct-answer-container">
+    <div className={cx("correct-answer-container", { [color]: true })}>
       <div>{description}</div>
       <div>{answerToRender}</div>
     </div>

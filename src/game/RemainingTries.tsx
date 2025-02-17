@@ -15,13 +15,12 @@ const RemainingTries = ({ count }: RemainingTriesProps) => {
 
   return (
     <div className="remaining-tries-container">
+      <span>Mistakes remaining: </span>
       <div className="circle-container">
-        {/* could we use array.fill here? */}
         {tries.map(() => (
           <span key={crypto.randomUUID()} className="circle"></span>
         ))}
       </div>
-      <div>Remaining Tries</div>
     </div>
   );
 };

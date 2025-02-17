@@ -1,12 +1,14 @@
 .word-container {
     height: 5rem;
     width: 5rem;
-    border: 1px solid red;
+    border-radius: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--primary-word-tile-color);
 }
 
 .is-selected {
-    background-color: forestgreen;
+    background-color: var(--selected-word-tile-color);
+    color: var(--selected-word-text-color)
 }

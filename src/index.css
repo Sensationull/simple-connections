@@ -1,8 +1,22 @@
 @import url("./reset.css");
 
+:root {
+  --primary-background-color: rgb(255, 255, 255);
+  --primary-word-tile-color: rgb(241,240,234);
+  --primary-word-text-color: rgb(15,15,15);
+  --selected-word-tile-color: rgb(92,88,81);
+  --selected-word-text-color: rgb(255, 255, 255);
+  --active-submit-button-color:  rgb(15,15,15);
+  --inactive-button-color: rgb(128,126,129);
+  --yellow-answer-color: rgb(245, 223, 126);
+  --green-answer-color: rgb(169, 193, 105);
+  --blue-answer-color: rgb(180, 195, 236);
+  --purple-answer-color: rgb(178, 132, 192);
+}
+
 .container {
-  /* border: 1px solid forestgreen; */
-  background-color: aqua;
+  background-color: var(--primary-background-color);
+  color: var(--primary-word-text-color);
   height: 100vh;
   width: 100vw;
   display: flex;

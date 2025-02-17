@@ -8,8 +8,27 @@
 }
 
 .button-group {
-  border: 1px solid red;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+}
+
+.button-group button {
+  border-radius: 1.5rem
+}
+
+.button-group button[type=submit] { 
+  /* 
+    The specificity for this rule is a little high, and so I had to make the is-active
+    class an id instead. Maybe a better way.
+  */
+  color:  var(--inactive-button-color);
+  border-color: var(--inactive-button-color);
+}
+
+
+#is-active {
+  background-color: var(--active-submit-button-color);
+  color: var(--selected-word-text-color);
+  border-color: var(--selected-word-text-color)
 }

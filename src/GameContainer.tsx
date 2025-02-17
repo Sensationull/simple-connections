@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import cx from "classnames";
 import "./GameContainer.css";
 import Gameboard from "./game/Gameboard";
 import RemainingTries from "./game/RemainingTries";
@@ -154,6 +155,7 @@ function GameContainer() {
   return (
     <>
       <section className="game-container">
+        {/* <h1>Create groups of four!</h1> */}
         <Gameboard
           onSelectWord={handleSelectWord}
           wordsToRender={gameState.currentBoard}
@@ -178,7 +180,6 @@ function GameContainer() {
           ></Modal>
         )}
         <div className="button-group">
-          {/* <button onClick={handleReset}>Reset</button> */}
           <Modal
             headerText={RESET_MODAL_HEADER_TEXT}
             description={RESET_MODAL_CONTENT_TEXT}
@@ -188,6 +189,8 @@ function GameContainer() {
           <button
             onClick={handleSubmit}
             disabled={currentSelection.length !== 4}
+            id={cx({ "is-active": currentSelection.length === 4 })}
+            type="submit"
           >
             Submit
           </button>

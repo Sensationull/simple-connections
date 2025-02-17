@@ -1,7 +1,6 @@
 .gameboard-container {
     height: 29rem;
     width: 100%;
-    border: 1px solid red;
     padding: 1.5rem;
     display: flex;
     flex-wrap: wrap;

@@ -22,6 +22,7 @@ const Gameboard = ({
               key={answerRow.description}
               answer={answerRow.answer}
               description={answerRow.description}
+              color={answerRow.color}
             />
           ))
         : null}
