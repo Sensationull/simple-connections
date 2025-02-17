@@ -1,20 +1,31 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import cx from "classnames";
 import "./Modal.css";
 
 type ModalProps = {
-  //   children: ReactNode;
   onReset(): void;
   headerText: string;
   description: string;
+  shouldShowButton: boolean;
 };
 
-const Modal = ({ headerText, description, onReset }: ModalProps) => {
+const Modal = ({
+  headerText,
+  description,
+  onReset,
+  shouldShowButton,
+}: ModalProps) => {
+  useEffect(() => {
+    if (!shouldShowButton && dialogRef.current) {
+      dialogRef.current.showModal();
+    }
+  }, []);
+
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const openDialog = () => {
     if (dialogRef.current) {
       dialogRef.current.showModal();
     }
-    // onReset ? onReset() : null;
   };
   const closeDialog = (shouldReset: boolean) => {
     console.log(dialogRef.current);
@@ -27,7 +38,7 @@ const Modal = ({ headerText, description, onReset }: ModalProps) => {
   };
   return (
     <>
-      <button onClick={openDialog}>Reset</button>
+      {shouldShowButton && <button onClick={openDialog}>Reset</button>}
       <dialog ref={dialogRef} className="modal">
         <section className="content-container">
           <h2
@@ -39,10 +50,16 @@ const Modal = ({ headerText, description, onReset }: ModalProps) => {
             {headerText}
           </h2>
           <section className="modal-content">{description}</section>
-          <div className="modal-button-group">
-            <button className="button" onClick={() => closeDialog(false)}>
-              No
-            </button>
+          <div
+            className={cx("modal-button-group", {
+              "modal-button-group-single-button": !shouldShowButton,
+            })}
+          >
+            {shouldShowButton && (
+              <button className="button" onClick={() => closeDialog(false)}>
+                No
+              </button>
+            )}
             <button className="button" onClick={() => closeDialog(true)}>
               Yes
             </button>

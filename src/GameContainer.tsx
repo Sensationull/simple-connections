@@ -7,6 +7,8 @@ import {
   answerKey,
   RESET_MODAL_HEADER_TEXT,
   RESET_MODAL_CONTENT_TEXT,
+  GAME_OVER_SUCCESS_HEADER_TEXT,
+  GAME_OVER_FAILURE_HEADER_TEXT,
 } from "./utils/constants";
 import { GameState, Word } from "./utils/types";
 import Modal from "./game/Modal";
@@ -135,6 +137,20 @@ function GameContainer() {
     setCurrentSelection([]);
     setWordState(testWords);
   };
+
+  const shouldShowGameOver = () => {
+    const successState =
+      gameState?.correctAnswers && gameState.correctAnswers.length === 4;
+    const failureState = gameState.remainingTries === 0;
+    if (successState) {
+      return { isSuccess: true };
+    }
+    if (failureState) {
+      return { isSuccess: false };
+    }
+    return { isSuccess: null };
+  };
+
   return (
     <>
       <section className="game-container">
@@ -144,12 +160,30 @@ function GameContainer() {
           correctAnswers={gameState.correctAnswers}
         />
         <RemainingTries count={gameState.remainingTries} />
+        {/* There's potentially cleaner way to write this? */}
+        {shouldShowGameOver().isSuccess === true && (
+          <Modal
+            headerText={GAME_OVER_SUCCESS_HEADER_TEXT}
+            description="You're so connected! Try again?"
+            onReset={handleReset}
+            shouldShowButton={false}
+          ></Modal>
+        )}
+        {shouldShowGameOver().isSuccess === false && (
+          <Modal
+            headerText={GAME_OVER_FAILURE_HEADER_TEXT}
+            description="Sorry, would you like to try again?"
+            onReset={handleReset}
+            shouldShowButton={false}
+          ></Modal>
+        )}
         <div className="button-group">
           {/* <button onClick={handleReset}>Reset</button> */}
           <Modal
             headerText={RESET_MODAL_HEADER_TEXT}
             description={RESET_MODAL_CONTENT_TEXT}
             onReset={handleReset}
+            shouldShowButton
           ></Modal>
           <button
             onClick={handleSubmit}

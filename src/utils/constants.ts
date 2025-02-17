@@ -24,5 +24,7 @@ export const answerKey = [
   { description: "Answer 4", answer: new Set(["m", "n", "o", "l"]) },
 ];
 
-export const RESET_MODAL_HEADER_TEXT = "Start over";
+export const RESET_MODAL_HEADER_TEXT = "Start over?";
 export const RESET_MODAL_CONTENT_TEXT = "Do you want to try again?";
+export const GAME_OVER_SUCCESS_HEADER_TEXT = "Congratulations, you won!";
+export const GAME_OVER_FAILURE_HEADER_TEXT = "Game over! Try again?";
