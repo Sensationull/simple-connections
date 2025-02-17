@@ -19,7 +19,7 @@ const Modal = ({
     if (!shouldShowButton && dialogRef.current) {
       dialogRef.current.showModal();
     }
-  }, []);
+  }, [shouldShowButton]);
 
   const dialogRef = useRef<HTMLDialogElement | null>(null);
   const openDialog = () => {

@@ -15,6 +15,7 @@
 }
 
 .container {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: var(--primary-background-color);
   color: var(--primary-word-text-color);
   height: 100vh;
