@@ -1,5 +1,5 @@
 import { useRef } from "react";
-// import "./Modal.css"; <- Somehow an issue with the CSS not removing the dialog when clicked...
+import "./Modal.css";
 
 type ModalProps = {
   //   children: ReactNode;
@@ -29,12 +29,25 @@ const Modal = ({ headerText, description, onReset }: ModalProps) => {
     <>
       <button onClick={openDialog}>Reset</button>
       <dialog ref={dialogRef} className="modal">
-        <h2 id="dialog-title" aria-modal="true" aria-labelledby="dialog-title">
-          {headerText}
-        </h2>
-        <section className="modal-content">{description}</section>
-        <button onClick={() => closeDialog(false)}>No</button>
-        <button onClick={() => closeDialog(true)}>Yes</button>
+        <section className="content-container">
+          <h2
+            id="dialog-title"
+            aria-modal="true"
+            aria-labelledby="dialog-title"
+            className="header"
+          >
+            {headerText}
+          </h2>
+          <section className="modal-content">{description}</section>
+          <div className="modal-button-group">
+            <button className="button" onClick={() => closeDialog(false)}>
+              No
+            </button>
+            <button className="button" onClick={() => closeDialog(true)}>
+              Yes
+            </button>
+          </div>
+        </section>
       </dialog>
     </>
   );

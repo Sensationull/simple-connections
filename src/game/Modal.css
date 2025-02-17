@@ -3,10 +3,32 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 20rem;
-    width: 20rem;
+    height: 25rem;
+    width: 25rem;
     max-width: 100%;
     max-height: 100%;
+}
+/* 
+    setting display:flex on a native dialog element disallowed removal 
+    of that dialog for some reason, so I'm adding .content-container to control the 
+    elements inside the dialog.
+*/
+.content-container {
+    border: 1px solid red;
     display: flex;
     flex-direction: column;
+    padding: 2rem;
+    height: 100%;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+.header, .modal-content {
+    text-align: center;
+}
+
+.modal-button-group {
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
 }
