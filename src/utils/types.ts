@@ -1,6 +1,10 @@
 export type Word = { word: string; isSelected: boolean; idxPosition: number };
 
-export type Answer = { description: string; answer: Set<string> };
+export type Answer = {
+  description: string;
+  answer: Set<string>;
+  color: string;
+};
 
 export type GameState = {
   remainingTries: number;
@@ -12,6 +16,7 @@ export type GameState = {
 export type CorrectAnswerProps = {
   answer: Set<string>;
   description: string;
+  color: string;
 };
 
 export type RemainingTriesProps = {
@@ -26,5 +31,5 @@ export type WordTileProps = {
 export type GameboardProps = {
   onSelectWord(word: Word): void;
   wordsToRender: Word[];
-  correctAnswers: { description: string; answer: Set<string> }[] | null;
+  correctAnswers: Answer[] | null;
 };

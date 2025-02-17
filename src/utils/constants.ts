@@ -18,10 +18,26 @@ export const testWords = [
 ];
 
 export const answerKey = [
-  { description: "Answer 1", answer: new Set(["a", "f", "k", "p"]) },
-  { description: "Answer 2", answer: new Set(["e", "b", "c", "d"]) },
-  { description: "Answer 3", answer: new Set(["i", "g", "j", "h"]) },
-  { description: "Answer 4", answer: new Set(["m", "n", "o", "l"]) },
+  {
+    description: "Answer 1",
+    answer: new Set(["a", "f", "k", "p"]),
+    color: "green",
+  },
+  {
+    description: "Answer 2",
+    answer: new Set(["e", "b", "c", "d"]),
+    color: "blue",
+  },
+  {
+    description: "Answer 3",
+    answer: new Set(["i", "g", "j", "h"]),
+    color: "yellow",
+  },
+  {
+    description: "Answer 4",
+    answer: new Set(["m", "n", "o", "l"]),
+    color: "purple",
+  },
 ];
 
 export const RESET_MODAL_HEADER_TEXT = "Start over?";
