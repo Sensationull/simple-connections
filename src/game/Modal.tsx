@@ -28,7 +28,6 @@ const Modal = ({
     }
   };
   const closeDialog = (shouldReset: boolean) => {
-    console.log(dialogRef.current);
     if (dialogRef.current && !shouldReset) {
       dialogRef.current.close();
     } else if (dialogRef.current && shouldReset) {

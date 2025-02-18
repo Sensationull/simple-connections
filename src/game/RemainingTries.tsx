@@ -17,8 +17,12 @@ const RemainingTries = ({ count }: RemainingTriesProps) => {
     <div className="remaining-tries-container">
       <span>Mistakes remaining: </span>
       <div className="circle-container">
-        {tries.map(() => (
-          <span key={crypto.randomUUID()} className="circle"></span>
+        {tries.map((_, index) => (
+          <span
+            key={crypto.randomUUID()}
+            className="circle"
+            data-testid={`circle-${index}`}
+          ></span>
         ))}
       </div>
     </div>
