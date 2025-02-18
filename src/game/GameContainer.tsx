@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import cx from "classnames";
 import "./GameContainer.css";
-import Gameboard from "./game/Gameboard";
-import RemainingTries from "./game/RemainingTries";
+import Gameboard from "./Gameboard";
+import RemainingTries from "./RemainingTries";
 import {
   testWords,
   answerKey,
@@ -10,9 +10,9 @@ import {
   RESET_MODAL_CONTENT_TEXT,
   GAME_OVER_SUCCESS_HEADER_TEXT,
   GAME_OVER_FAILURE_HEADER_TEXT,
-} from "./utils/constants";
-import { GameState, Word } from "./utils/types";
-import Modal from "./game/Modal";
+} from "../utils/constants";
+import { GameState, Word } from "../utils/types";
+import Modal from "./Modal";
 
 function GameContainer() {
   const [wordState, setWordState] = useState(testWords);

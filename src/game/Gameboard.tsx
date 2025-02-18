@@ -1,6 +1,6 @@
 import "./Gameboard.css";
 import WordTile from "./WordTile";
-import CorrectAnswer from "../CorrectAnswer";
+import CorrectAnswer from "./CorrectAnswer";
 import { GameboardProps } from "../utils/types";
 
 const Gameboard = ({
