@@ -1,10 +1,10 @@
-import { describe, it, expect } from "vitest";
+import { render, screen } from "@testing-library/react";
+import { describe, it } from "vitest";
+import GameContainer from "../game/GameContainer";
 
-describe("something truthy and falsy", () => {
-  it(" returns true", () => {
-    expect(true).toBe(true);
-  });
-  it(" returns false", () => {
-    expect(false).toBe(false);
+describe("GameContainer component", () => {
+  it("should render", () => {
+    render(<GameContainer />);
+    screen.debug();
   });
 });
