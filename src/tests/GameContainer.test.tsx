@@ -1,9 +1,4 @@
-import {
-  render,
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-} from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect, beforeAll, vi } from "vitest";
 import GameContainer from "../game/GameContainer";
 import "@testing-library/jest-dom";
@@ -86,19 +81,11 @@ describe("GameContainer component", () => {
     await user.click(listElementE);
 
     // Click the submit button
-    // expect(screen.queryByTestId("circle-3")).not.toBeNull();
+    expect(screen.queryByTestId("circle-3")).not.toBeNull();
     await user.click(screen.getByRole("button", { name: /submit/i }));
-    screen.debug();
-    await waitFor(() => {
-      const removed = screen.queryByTestId("circle-3");
-      expect(removed).toBeNull();
-    });
-    // Figure out why the state is not updating accordingly
-    // expect(screen.queryByTestId("circle-3")).toBeNull();
-    // expect(screen.getByTestId("circle-2")).toBeVisible();
-    // await waitForElementToBeRemoved(() => screen.queryByTestId("circle-3"));
-    // ^This timed out
-    // There should be 3 circles remaining
+
+    // Expect one of the circles to be removed
+    expect(screen.queryByTestId("circle-3")).toBeNull();
   });
 
   // it("should show the reset modal when the Reset button is clicked", async () => {

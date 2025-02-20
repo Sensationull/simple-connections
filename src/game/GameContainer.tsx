@@ -114,7 +114,7 @@ function GameContainer() {
     } else {
       setGameState((prev) => ({
         ...prev,
-        remainingTries: prev.remainingTries--, //  decrement remaining tries
+        remainingTries: prev.remainingTries - 1, //  decrement remaining tries, do not use the postdecrement operator (breaks tests)
       }));
       const resetSelectedWords = wordState.filter(
         (
