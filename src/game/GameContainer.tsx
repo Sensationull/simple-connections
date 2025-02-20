@@ -13,6 +13,7 @@ import {
 } from "../utils/constants";
 import { GameState, Word } from "../utils/types";
 import Modal from "./Modal";
+import { isSelectionCorrect, shouldShowGameOver } from "../utils/helpers";
 
 function GameContainer() {
   const [wordState, setWordState] = useState(testWords);
@@ -29,26 +30,6 @@ function GameContainer() {
     // refactor if possible
     setGameState((prev) => ({ ...prev, currentBoard: wordState }));
   }, [wordState]);
-
-  const isSelectionCorrect = (selection: string[]) => {
-    /*
-      This is a n² solution, see if optimizing can be done later,
-      although not a big issue as this is a 4x4 board
-    */
-    let isCorrect = false;
-    answerKey.forEach((object) => {
-      let currentMatch = true;
-      selection.forEach((item) => {
-        if (!object.answer.has(item)) {
-          currentMatch = false;
-        }
-      });
-      if (currentMatch) {
-        isCorrect = true;
-      }
-    });
-    return isCorrect;
-  };
 
   const updateWordState = (word: Word, selectState: boolean) => {
     // ~ Helper for handleSelectWord ~
@@ -77,7 +58,7 @@ function GameContainer() {
   };
 
   const handleSubmit = () => {
-    if (isSelectionCorrect(currentSelection)) {
+    if (isSelectionCorrect(currentSelection, answerKey)) {
       const remainingWords = wordState.filter(
         (word) => !currentSelection.includes(word.word),
       );
@@ -139,18 +120,10 @@ function GameContainer() {
     setWordState(testWords);
   };
 
-  const shouldShowGameOver = () => {
-    const successState =
-      gameState?.correctAnswers && gameState.correctAnswers.length === 4;
-    const failureState = gameState.remainingTries === 0;
-    if (successState) {
-      return { isSuccess: true };
-    }
-    if (failureState) {
-      return { isSuccess: false };
-    }
-    return { isSuccess: null };
-  };
+  const gameOverSuccessState = shouldShowGameOver(
+    gameState.correctAnswers,
+    gameState.remainingTries,
+  );
 
   return (
     <>
@@ -162,8 +135,11 @@ function GameContainer() {
           correctAnswers={gameState.correctAnswers}
         />
         <RemainingTries count={gameState.remainingTries} />
-        {/* There's potentially cleaner way to write this? */}
-        {shouldShowGameOver().isSuccess === true && (
+        {/*
+          There's potentially cleaner way to write this?
+          I want to have the modal appear when the game is over
+        */}
+        {gameOverSuccessState === true && (
           <Modal
             headerText={GAME_OVER_SUCCESS_HEADER_TEXT}
             description="You're so connected! Try again?"
@@ -171,7 +147,7 @@ function GameContainer() {
             shouldShowButton={false}
           ></Modal>
         )}
-        {shouldShowGameOver().isSuccess === false && (
+        {gameOverSuccessState === false && (
           <Modal
             headerText={GAME_OVER_FAILURE_HEADER_TEXT}
             description="Sorry, would you like to try again?"
