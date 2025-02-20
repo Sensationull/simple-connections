@@ -14,7 +14,6 @@
     elements inside the dialog.
 */
 .content-container {
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
     padding: 2rem;
@@ -28,11 +27,18 @@
 }
 
 .modal-button-group {
-    border: 1px solid red;
     display: flex;
     justify-content: space-between;
 }
 
 .modal-button-group-single-button {
     justify-content: center;
+}
+
+.modal-button-group-single-button button {
+    border-radius: 1.5rem
+}
+
+.reset-button {
+    border-color: var(--primary-word-text-color);
 }

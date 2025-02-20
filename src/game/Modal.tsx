@@ -37,7 +37,11 @@ const Modal = ({
   };
   return (
     <>
-      {shouldShowButton && <button onClick={openDialog}>Reset</button>}
+      {shouldShowButton && (
+        <button className="reset-button" onClick={openDialog}>
+          Reset
+        </button>
+      )}
       <dialog ref={dialogRef} className="modal">
         <section className="content-container">
           <h2

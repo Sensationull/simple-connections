@@ -1,5 +1,7 @@
 .game-container {
-  border: 1px solid red;
+  border: .5rem solid var(--primary-word-tile-color);
+  border-radius: .5rem;
+  background-color: var(--secondary-background-color);
   width: 520px;
   padding: 2rem;
   display: flex;
