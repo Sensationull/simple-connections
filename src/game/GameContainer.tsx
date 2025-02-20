@@ -11,22 +11,17 @@ import {
   GAME_OVER_FAILURE_DESCRIPTION_TEXT,
 } from "../utils/constants";
 import Modal from "./Modal";
-import { shouldShowGameOver } from "../utils/helpers";
 import useGameState from "../hooks/useGameState";
 
 function GameContainer() {
   const {
     currentSelection,
+    gameOverState,
     gameState,
     handleReset,
-    handleSubmit,
     handleSelectWord,
+    handleSubmit,
   } = useGameState();
-
-  const gameOverSuccessState = shouldShowGameOver(
-    gameState.correctAnswers,
-    gameState.remainingTries,
-  );
 
   return (
     <>
@@ -42,7 +37,7 @@ function GameContainer() {
           There's potentially cleaner way to write this?
           I want to have the modal appear when the game is over
         */}
-        {gameOverSuccessState === true && (
+        {gameOverState === true && (
           <Modal
             headerText={GAME_OVER_SUCCESS_HEADER_TEXT}
             description={GAME_OVER_SUCCESS_DESCRIPTION_TEXT}
@@ -50,7 +45,7 @@ function GameContainer() {
             shouldShowButton={false}
           ></Modal>
         )}
-        {gameOverSuccessState === false && (
+        {gameOverState === false && (
           <Modal
             headerText={GAME_OVER_FAILURE_HEADER_TEXT}
             description={GAME_OVER_FAILURE_DESCRIPTION_TEXT}

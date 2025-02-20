@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Answer, GameState, Word } from "../utils/types";
 import { testWords } from "../utils/constants";
 import { answerKey } from "../utils/constants";
-import { isSelectionCorrect } from "../utils/helpers";
+import { isSelectionCorrect, shouldShowGameOver } from "../utils/helpers";
 
 const useGameState = () => {
   const [wordState, setWordState] = useState(testWords);
@@ -124,16 +124,18 @@ const useGameState = () => {
     setWordState(testWords);
   };
 
+  const gameOverState = shouldShowGameOver(
+    gameState.correctAnswers,
+    gameState.remainingTries,
+  );
+
   return {
     currentSelection,
-    setCurrentSelection,
+    gameOverState,
     gameState,
-    setGameState,
-    setWordState,
-    handleSelectWord,
-    wordState,
-    handleSubmit,
     handleReset,
+    handleSelectWord,
+    handleSubmit,
   };
 };
 
