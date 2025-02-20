@@ -43,4 +43,8 @@ export const answerKey = [
 export const RESET_MODAL_HEADER_TEXT = "Start over?";
 export const RESET_MODAL_CONTENT_TEXT = "Do you want to try again?";
 export const GAME_OVER_SUCCESS_HEADER_TEXT = "Congratulations, you won!";
+export const GAME_OVER_SUCCESS_DESCRIPTION_TEXT =
+  "You're so connected! Try again?";
+export const GAME_OVER_FAILURE_DESCRIPTION_TEXT =
+  "Sorry, would you like to try again?";
 export const GAME_OVER_FAILURE_HEADER_TEXT = "Game over! Try again?";

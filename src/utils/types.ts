@@ -9,7 +9,6 @@ export type Answer = {
 export type GameState = {
   remainingTries: number;
   currentBoard: Word[];
-  answerKey: Answer[];
   correctAnswers: Answer[] | null;
 };
 
